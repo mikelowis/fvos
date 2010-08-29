@@ -1,0 +1,27 @@
+actions Compile {
+	$(COMPILER) $(COMPILER_FLAGS) $(COMPILER_INCLUDE_PATHS) $(2) -o $(1)
+}
+
+actions quietly InitLintFile {
+	$(LINT) -dump $(1)
+}
+
+actions CheckLint {
+	$(LINT) $(LINT_FLAGS) $(COMPILER_INCLUDE_PATHS) -load $(1) -dump $(1) $(2)
+}
+
+actions Assemble {
+	$(ASSEMBLER) $(ASSEMBLER_FLAGS) $(2) -o $(1)
+}
+
+actions Link {
+	$(LINKER) $(LINKER_FLAGS) $(2) -o $(1)
+}
+
+actions MkDir {
+	mkdir $(1)
+}
+
+actions ignore piecemeal together existing Clean {
+	$(REMOVE) $(2)
+}

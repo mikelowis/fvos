@@ -1,0 +1,64 @@
+###############################################################################
+# Main Build Rules
+###############################################################################
+
+rule SetupIncludePaths {
+	for folder in $(1) {
+		COMPILER_INCLUDE_PATHS += -I$(folder) ;
+	}
+}
+
+rule PerformLintCheck {
+	InitLintFile $(1) ;
+	CheckLint $(1) : $(2) ;
+}
+
+rule CompileFiles {
+	for src in $(1) {
+		Compile  $(OBJ_DIR)/$(src:B).o : $(src) ;
+	}
+}
+
+rule AssembleFiles {
+	for src in $(1) {
+		Assemble  $(OBJ_DIR)/$(src:B).o : $(src) ;
+	}
+}
+
+rule Link { 
+	Depends all : $(1) ;
+	Depends $(1) : $(2) ;
+	Clean clean : $(1) ;
+}
+
+rule MkDir { 
+	Depends all : $(1) ;
+	Depends clean : $(1) ;
+}
+
+###############################################################################
+# Helper Rules
+###############################################################################
+
+rule Compile {
+	Depends all : $(1) ;
+	Depends $(1) : $(2) ;
+	Clean clean : $(1) ;
+	OBJ_FILES += $(1) ;
+}
+
+rule InitLintFile {
+	Depends all : $(1) ;
+	Clean clean : $(1) ;
+}
+
+rule CheckLint {
+	Depends all : $(1) ;
+	Depends $(1): $(2) ;
+}
+
+rule Assemble { 
+	Depends all : $(1) ;
+	Depends $(1) : $(2) ;
+	Clean clean : $(1) ;
+}
