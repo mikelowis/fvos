@@ -1,0 +1,34 @@
+include jam/jam.config ;
+include jam/jam.actions ;
+include jam/jam.rules ;
+
+###############################################################################
+# Build Settings
+###############################################################################
+
+TARGET_FILE =      kernel.bin ;
+
+INCLUDE_FOLDERS =  src/BIOS/ ;
+
+C_FILES =          src/main.c ;
+
+ASM_FILES =        src/start.s ;
+
+# Create include folder list
+SetupIncludePaths $(INCLUDE_FOLDERS) ;
+
+# Create the build directories
+MkDir    $(BUILD_DIR) ;
+MkDir    $(OBJ_DIR) ;
+
+###############################################################################
+# Target: Kernel
+###############################################################################
+#CompileFiles Kernel : $(C_FILES) ;
+#AssembleFiles Kernel : $(ASM_FILES) ;
+#PerformLintCheck Kernel : $(LINT_OUTPUT_FILE) : $(C_FILES) ;
+#Link Kernel : $(BUILD_DIR)/$(TARGET_FILE) : $(OBJ_FILES) ;
+CompileFiles      $(C_FILES) ;
+AssembleFiles     $(ASM_FILES) ;
+PerformLintCheck  $(LINT_OUTPUT_FILE) : $(C_FILES) ;
+Link              $(BUILD_DIR)/$(TARGET_FILE) : $(OBJ_FILES) ;
